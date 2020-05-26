@@ -1,8 +1,11 @@
 all:  data.json index.html
 
+pub: index.html
+	./pushdashboard2git.sh
+
 index.html : daily.csv
 	./csv2dashboard.sh
-	./pushdashboard2git.sh
+
 
 daily.csv : data.json
 	echo "dt,confirmed,recovered,deceased" > daily.csv
