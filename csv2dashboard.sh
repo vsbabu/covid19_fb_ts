@@ -1,0 +1,37 @@
+#!/bin/bash
+
+cd `dirname $0`
+NUMWEEKS=8
+startdt=`date -d"monday-${NUMWEEKS} weeks" +%Y%m%d`
+OUTPUT_FILE="index.html"
+
+## ideally, we should be using some html templating library to fill up the
+## slots in the dashboard. for now, this will work just as well!
+rm -f o.html
+echo "<table><tr><th align=\"center\">confirmed</th><th align=\"center\">recovered</th><th align=\"center\">deceased</th></tr><tbody><tr>" >> o.html
+for CATEGORY in confirmed recovered deceased; do
+  echo "<td width=\"33%\"><img src=\"pred_${CATEGORY}.html.png\" width=\"400\" height=\"200\" alt=\"${CATEGORY} predictions\"/></td>" >> o.html
+done
+echo "</tr></tbody></table>" >> o.html
+echo "<table><tr><td width=\"40%\" valign=\"top\" nowrap>" >> o.html
+for CATEGORY in confirmed recovered deceased; do
+  #https://github.com/BurntSushi/xsv
+  if [ "$CATEGORY" == "recovered" ]; then
+    COLOR_ARGS="-p lightgreen -n orange"
+  else
+    COLOR_ARGS="-n lightgreen -p orange"
+  fi
+  xsv select dt,$CATEGORY daily.csv | tail -n +2| python3 weeklies.py -s $startdt -k $NUMWEEKS -o ${CATEGORY}.html -t "%d-%B-%Y" $COLOR_ARGS
+  cat ${CATEGORY}.html|sed  -e 's/ 00:00:00//g' -e 's/<table /<table border="0" cellspacing="2" cellpadding="2" /g' -e "s/<thead>/<caption style='font-weight:bold;background-color:#99ccff;'>${CATEGORY}<\/caption><thead>/g" -e 's/<td /<td width="60" align="right" /g' -e 's/<tr> *<th class="index_name level0" >.*<\/tr>//g' -e 's/nan//g' -e 's/<thead>.*<\/thead>//g' >> o.html
+  rm -f ${CATEGORY}.html
+done
+# this is a bad html; so force an exit code of 0
+python3 calendarmap.py
+echo '</td><td valign="top">' >> o.html
+for f in 0_*.png; do
+  echo "<img src=\"$f\" /><br/>" >> o.html
+done
+echo "</td></tr></table></body></html>" >> o.html
+mv o.html $OUTPUT_FILE
+tidy -m $OUTPUT_FILE 
+sed -i -e 's|title><\/title|title>dashboard<\/title|g' -e 's/<body>/<body style="font-size:80%;">/g' $OUTPUT_FILE
