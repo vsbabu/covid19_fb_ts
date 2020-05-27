@@ -1,6 +1,6 @@
 all:  data.json index.html ka.html tn.html kl.html
 
-pub: index.html
+pub: index.html ka.html tn.html kl.html
 	./pushdashboard2git.sh
 
 index.html : daily.csv
@@ -10,6 +10,8 @@ index.html : daily.csv
 daily.csv : data.json
 	echo "dt,confirmed,recovered,deceased" > daily.csv
 	jq -r ".cases_time_series[]|[.date, .dailyconfirmed, .dailyrecovered, .dailydeceased]|@csv" data.json|sed -e 's/"//g' -e  's/^\(..\) \(.*\) \(.*\)/\1-\2-2020\3/g' >> daily.csv
+
+# FIXME: *.html <- *.csv can be generalized in make
 
 kl.html : kl.csv
 	./csv2dashboard.sh kl.csv kl.html "%d-%b-%Y"
@@ -28,7 +30,6 @@ ka.csv : data.json
 
 data.json :
 	curl -o data.json -z data.json https://api.covid19india.org/data.json
-  curl -o states_daily.json -z states_daily.json https://api.covid19india.org/states_daily.json
 
 clean :
 	rm -f *.html *.csv

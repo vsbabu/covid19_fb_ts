@@ -2,6 +2,7 @@
 
 cd `dirname $0`
 state=${1:-"kl"}
+curl -o states_daily.json -z states_daily.json https://api.covid19india.org/states_daily.json
 status=(Confirmed Recovered Deceased)
 for i in "${!status[@]}"; do
   jq -r -c ".states_daily[]|select(.status==\"${status[$i]}\")|[.date,.${state}]|@csv" states_daily.json |sort > ${i}.tmp
