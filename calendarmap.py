@@ -3,22 +3,23 @@ import pandas as pd
 import calmap
 from matplotlib import pyplot as plt
 
-def parser(x):
-  """
-  parse yymmdd into DateTime. Used in read_csv
-  """
-  return pd.datetime.strptime(x, '%d-%B-%Y')
+import sys
+import argparse
 
+argparser = argparse.ArgumentParser(description="Reads dt,value without header from stdin and prints a weekly folded html with anomalies", add_help=True)
+argparser.add_argument("--time_format", "-t", help="Strftime pattern to parse (%y%m%d)")
+argparser.add_argument("--output_prefix", "-o", help="Output prefix for graphs")
 
-# pipe sep, no header row, custom date parser, trim column values
-df = pd.read_csv('daily.csv',      \
-        sep=",",             \
-        parse_dates=[0],  squeeze=True, \
-        date_parser=parser)
+args = argparser.parse_args()
+
+if not args.time_format:
+    args.time_format = "%y%m%d"
+
+df = pd.read_csv(sys.stdin, sep=",", header=None, squeeze=True)
 
 df.columns = ['ds', 'confirmed', 'recovered', 'deceased']
 # let us set ds as datetime index
-df["ds"] = pd.to_datetime(df.ds, format="%y%m%d")
+df["ds"] = pd.to_datetime(df.ds, format=args.time_format)
 df = df.set_index("ds")
 
 ## -- now comes the main part of making visualizations
@@ -45,4 +46,7 @@ for i, yr in enumerate([2020]):
         #up to here is enough to plot in Jupyter notebook
         #I wanted to save the plot as pngs too so that those can be
         #embedded in an html page/email -- the next line saves those
-        plt.savefig("./{0}_{1}_{2}.png".format(i,j,k))
+        if not args.output_prefix:
+            plt.savefig("./{0}_{1}_{2}.png".format(i,j,k))
+        else:
+            plt.savefig("./{0}_{1}_{2}_{3}.png".format(args.output_prefix,i,j,k))
