@@ -1065,14 +1065,14 @@
 	],
 	"statewise": [
 		{
-			"active": "83232",
-			"confirmed": "151864",
-			"deaths": "4344",
-			"deltaconfirmed": "1048",
-			"deltadeaths": "0",
-			"deltarecovered": "0",
-			"lastupdatedtime": "27/05/2020 09:43:03",
-			"recovered": "64277",
+			"active": "83505",
+			"confirmed": "152171",
+			"deaths": "4347",
+			"deltaconfirmed": "1355",
+			"deltadeaths": "3",
+			"deltarecovered": "31",
+			"lastupdatedtime": "27/05/2020 13:53:02",
+			"recovered": "64308",
 			"state": "Total",
 			"statecode": "TT",
 			"statenotes": ""
@@ -1130,14 +1130,14 @@
 			"statenotes": "[10-May]<br>\n\nDelhi will be releasing bulletins in the morning, containing data of the previous day. We will add that data to the date on which the report is released, rather than the previous day."
 		},
 		{
-			"active": "3090",
-			"confirmed": "7536",
-			"deaths": "170",
-			"deltaconfirmed": "0",
-			"deltadeaths": "0",
-			"deltarecovered": "0",
-			"lastupdatedtime": "26/05/2020 21:45:09",
-			"recovered": "4276",
+			"active": "3180",
+			"confirmed": "7645",
+			"deaths": "172",
+			"deltaconfirmed": "109",
+			"deltadeaths": "2",
+			"deltarecovered": "17",
+			"lastupdatedtime": "27/05/2020 10:12:04",
+			"recovered": "4293",
 			"state": "Rajasthan",
 			"statecode": "RJ",
 			"statenotes": ""
@@ -1221,17 +1221,17 @@
 			"statenotes": ""
 		},
 		{
-			"active": "1489",
-			"confirmed": "2283",
-			"deaths": "44",
-			"deltaconfirmed": "0",
-			"deltadeaths": "0",
-			"deltarecovered": "0",
-			"lastupdatedtime": "26/05/2020 20:45:09",
-			"recovered": "748",
+			"active": "1596",
+			"confirmed": "2405",
+			"deaths": "45",
+			"deltaconfirmed": "122",
+			"deltadeaths": "1",
+			"deltarecovered": "14",
+			"lastupdatedtime": "27/05/2020 13:36:04",
+			"recovered": "762",
 			"state": "Karnataka",
 			"statecode": "KA",
-			"statenotes": "One active case in KA reduced as a confirmed patient died of non-CoViD19 related reasons"
+			"statenotes": "Two active cases in KA reduced as a confirmed patient died of non-CoViD19 related reasons"
 		},
 		{
 			"active": "148",
@@ -1273,13 +1273,13 @@
 			"statenotes": ""
 		},
 		{
-			"active": "777",
-			"confirmed": "1517",
+			"active": "853",
+			"confirmed": "1593",
 			"deaths": "7",
-			"deltaconfirmed": "0",
+			"deltaconfirmed": "76",
 			"deltadeaths": "0",
 			"deltarecovered": "0",
-			"lastupdatedtime": "26/05/2020 18:53:05",
+			"lastupdatedtime": "27/05/2020 13:53:04",
 			"recovered": "733",
 			"state": "Odisha",
 			"statecode": "OR",
@@ -1396,7 +1396,7 @@
 			"deltaconfirmed": "0",
 			"deltadeaths": "0",
 			"deltarecovered": "0",
-			"lastupdatedtime": "27/05/2020 09:43:05",
+			"lastupdatedtime": "27/05/2020 09:53:04",
 			"recovered": "165",
 			"state": "Tripura",
 			"statecode": "TR",
@@ -2651,6 +2651,20 @@
 			"totalpositivecases": "",
 			"totalsamplestested": "3126119",
 			"updatetimestamp": "26/05/2020 09:00:00"
+		},
+		{
+			"individualstestedperconfirmedcase": "",
+			"positivecasesfromsamplesreported": "",
+			"samplereportedtoday": "116041",
+			"source": "https://t.me/Covid19india_Auxiliary_Test_Data/177",
+			"testpositivityrate": "",
+			"testsconductedbyprivatelabs": "",
+			"testsperconfirmedcase": "",
+			"testspermillion": "",
+			"totalindividualstested": "",
+			"totalpositivecases": "",
+			"totalsamplestested": "3242160",
+			"updatetimestamp": "27/05/2020 09:00:00"
 		}
 	]
 }
