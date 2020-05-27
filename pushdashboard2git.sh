@@ -1,5 +1,5 @@
 #!/bin/bash
-t=`mktmp -d`
+t=`mktemp -d`
 for f in *.png *.csv *.json *.html; do
   mv $f $t/
 done
@@ -9,4 +9,3 @@ git add *.png *.csv *.json *.html
 git commit -m "re-generated"
 git push
 git checkout master
-rm -fR $t
