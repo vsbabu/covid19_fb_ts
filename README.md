@@ -1,6 +1,11 @@
 # Covid 19 India: data visualization and prediction sample
 
 Simple hack to make a [dashboard of covid-19 data and predictions](https://vsbabu.github.io/covid19_fb_ts/).
+- [All of India](https://vsbabu.github.io/covid19_fb_ts/)
+- [Karnataka](https://vsbabu.github.io/covid19_fb_ts/ka.html)
+- [Kerala](https://vsbabu.github.io/covid19_fb_ts/kl.html)
+- [Tamil Nadu](https://vsbabu.github.io/covid19_fb_ts/tn.html)
+
 The latest output is available on *gh-pages* branch.
 
 More details are at my blog:
