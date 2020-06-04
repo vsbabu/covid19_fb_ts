@@ -176,4 +176,17 @@ future_days = int((7*args.how_many_weeks/2) + remaining_days_in_week)
 fdataframe = m.make_future_dataframe(periods=future_days)
 forecast_f = m.predict(fdataframe)
 fig = m.plot(forecast_f)
+ax = fig.get_axes()[0]
+for i,lockdown in enumerate(["2020-03-25", "2020-04-15", "2020-05-03", "2020-05-18"],1):
+    lockdown_date = pd.to_datetime(lockdown)
+    color = 'r'
+    label =  f"#L{i}     -     {lockdown}"
+    ax.axvline(x=lockdown_date, color=color, label=label, linestyle=':', linewidth=1)
+    ax.text(lockdown_date,0,label,rotation=90)
+for i,lockdown in enumerate(["2020-06-01"],1):
+    lockdown_date = pd.to_datetime(lockdown)
+    color = 'g'
+    label =  f"#U{i}     -     {lockdown}"
+    ax.axvline(x=lockdown_date, color=color, label=label, linestyle=':', linewidth=1)
+    ax.text(lockdown_date,0,label,rotation=90)
 fig.savefig(args.group + "_pred_" + args.output + ".png")
