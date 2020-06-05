@@ -6,6 +6,9 @@ from fbprophet import Prophet
 import sys
 import argparse
 
+import logging
+logger = logging.getLogger("weeklies")
+
 import datetime
 today = datetime.date.today()
 
@@ -18,6 +21,7 @@ argparser.add_argument("--group", "-g", help="Output HTML file group")
 argparser.add_argument("--positive_color", "-p", help="Color for anomaly above band (lightgreen)")
 argparser.add_argument("--negative_color", "-n", help="Color for anomaly below band (orange)")
 argparser.add_argument("--future_color", "-f", help="Color for future predictions (silver)")
+argparser.add_argument("--marker_yaml", "-m", help="Additional marker lines to be drawn")
 
 args = argparser.parse_args()
 
@@ -177,16 +181,14 @@ fdataframe = m.make_future_dataframe(periods=future_days)
 forecast_f = m.predict(fdataframe)
 fig = m.plot(forecast_f)
 ax = fig.get_axes()[0]
-for i,lockdown in enumerate(["2020-03-25", "2020-04-15", "2020-05-03", "2020-05-18"],1):
-    lockdown_date = pd.to_datetime(lockdown)
-    color = 'r'
-    label =  f"#L{i}     -     {lockdown}"
-    ax.axvline(x=lockdown_date, color=color, label=label, linestyle=':', linewidth=1)
-    ax.text(lockdown_date,0,label,rotation=90)
-for i,lockdown in enumerate(["2020-06-01"],1):
-    lockdown_date = pd.to_datetime(lockdown)
-    color = 'g'
-    label =  f"#U{i}     -     {lockdown}"
-    ax.axvline(x=lockdown_date, color=color, label=label, linestyle=':', linewidth=1)
-    ax.text(lockdown_date,0,label,rotation=90)
+if args.marker_yaml:
+    import yaml
+    try:
+        with open(args.marker_yaml, "r") as ymlfile:
+            ymg = yaml.load(ymlfile, yaml.SafeLoader)
+        for i, marker in enumerate(ymg["markers"], 1):
+            ax.axvline(x=marker['val'], color=marker['color'], label=marker['label'], linestyle=marker['mark'], linewidth=1)
+            ax.text(marker['val'],0,marker['label'],rotation=90)
+    except Exception as e:
+        logger.error("Marker config failed " + str(e))
 fig.savefig(args.group + "_pred_" + args.output + ".png")

@@ -1,0 +1,22 @@
+markers:
+  - val: 2020-03-25
+    color: r
+    mark: ':'
+    label: '#L1    -    2020-03-25'
+  - val: 2020-04-15
+    color: r
+    mark: ':'
+    label: '#L2    -    2020-04-15'
+  - val: 2020-05-03
+    color: r
+    mark: ':'
+    label: '#L3    -    2020-05-03'
+  - val: 2020-05-18
+    color: r
+    mark: ':'
+    label: '#L4    -    2020-05-18'
+  - val: 2020-06-01
+    color: g
+    mark: ':'
+    label: '#U1    -    2020-06-01'
+
