@@ -32,6 +32,6 @@ data.json :
 	curl -o data.json -z data.json https://api.covid19india.org/data.json
 
 clean :
-	rm -f *.html *.csv
+	rm -f *.html *.csv *.png *.json
 
 .PHONY : data.json
