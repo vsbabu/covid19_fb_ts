@@ -7,12 +7,15 @@ INPUT_FILE=${1:-"daily.csv"}
 OUTPUT_FILE=${2:-"index.html"}
 DATE_FORMAT=${3:-"%d-%B-%Y"}
 MARKERS_YML="markers.yml"
+CACHE_EXPIRY_TIME=`TZ=GMT date -d "+12 hours" +"%a, %d %b %Y %H:%M:%S %Z"`
 ## ideally, we should be using some html templating library to fill up the
 ## slots in the dashboard. for now, this will work just as well!
 rm -f o.html
+cat ${INPUT_FILE} | tail -n +2| python3 calendarmap.py -t $DATE_FORMAT -o ${INPUT_FILE}
 echo "<table><tr><th align=\"center\">confirmed</th><th align=\"center\">recovered</th><th align=\"center\">deceased</th></tr><tbody><tr>" >> o.html
 for CATEGORY in confirmed recovered deceased; do
-  echo "<td width=\"33%\"><img src=\"${INPUT_FILE}_pred_${CATEGORY}.html.png\" width=\"400\" height=\"200\" alt=\"${CATEGORY} predictions\"/></td>" >> o.html
+  hash=`md5sum "${INPUT_FILE}_pred_${CATEGORY}.html.png"|cut -f1 -d' '`
+  echo "<td width=\"33%\"><img src=\"${INPUT_FILE}_pred_${CATEGORY}.html.png?v=${hash}\" width=\"400\" height=\"200\" alt=\"${CATEGORY} predictions\"/></td>" >> o.html
 done
 echo "</tr></tbody></table>" >> o.html
 echo "<table><tr><td width=\"40%\" valign=\"top\" nowrap>" >> o.html
@@ -28,12 +31,12 @@ for CATEGORY in confirmed recovered deceased; do
   rm -f ${CATEGORY}.html
 done
 # this is a bad html; so force an exit code of 0
-cat ${INPUT_FILE} | tail -n +2| python3 calendarmap.py -t $DATE_FORMAT -o ${INPUT_FILE}
 echo '</td><td valign="top">' >> o.html
 for f in ${INPUT_FILE}_0_*.png; do
-  echo "<img src=\"$f\" /><br/>" >> o.html
+  hash=`md5sum "$f"|cut -f1 -d' '`
+  echo "<img src=\"${f}?v=${hash}\" /><br/>" >> o.html
 done
 echo "</td></tr></table></body></html>" >> o.html
 mv o.html $OUTPUT_FILE
 tidy -m $OUTPUT_FILE 
-sed -i -e 's|title><\/title|title>dashboard<\/title|g' -e 's/<body>/<body style="font-size:80%;">/g' $OUTPUT_FILE
+sed -i -e "s|<title><\/title|<meta http-equiv=\"Expires\" content=\"${CACHE_EXPIRY_TIME}\" \/><title>dashboard<\/title|g" -e 's/<body>/<body style="font-size:80%;">/g' $OUTPUT_FILE
