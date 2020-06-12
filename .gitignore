@@ -2,6 +2,9 @@
 *.png
 *.json
 *.csv
+.doit.*
+.web_cache*
+output/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

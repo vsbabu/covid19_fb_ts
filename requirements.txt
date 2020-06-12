@@ -1,0 +1,10 @@
+doit==0.32.0
+PyYAML==5.3.1
+requests==2.23.0
+CacheControl==0.12.6
+lockfile==0.12.2
+numpy==1.16.4
+pandas==0.24.2
+loguru==0.4.1
+Jinja2==2.10.1
+fbprophet==0.5.0jsonpath-ng==1.5.1
