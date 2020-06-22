@@ -32,6 +32,10 @@ else:
 if not args.start_week_date:
     args.start_week_date = today - datetime.timedelta(days=today.weekday(), weeks = args.how_many_weeks)
 
+if today.weekday() == 0: #if monday, let us ensure we predict rest of the week too
+    args.start_week_date = today - datetime.timedelta(days=today.weekday(), weeks = (args.how_many_weeks-1))
+
+
 if not args.time_format:
     args.time_format = "%y%m%d"
 
@@ -45,7 +49,7 @@ if not args.future_color:
 dfi = pd.read_csv(sys.stdin, sep=",", header=None, names=["ds", "y"])
 
 dates = pd.date_range(args.start_week_date, periods=((args.how_many_weeks+0) * 7))
-remaining_days_in_week = dates[-1].dayofweek - dates[-1].today().dayofweek
+remaining_days_in_week = dates[-1].dayofweek - today.weekday()
 
 todayf = today.strftime(args.time_format)
 if todayf not in dfi.ds.values:
