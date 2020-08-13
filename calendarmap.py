@@ -17,7 +17,7 @@ if not args.time_format:
 
 df = pd.read_csv(sys.stdin, sep=",", header=None, squeeze=True)
 
-df.columns = ['ds', 'confirmed', 'recovered', 'deceased']
+df.columns = ['ds', 'active', 'confirmed', 'recovered', 'deceased']
 # let us set ds as datetime index
 df["ds"] = pd.to_datetime(df.ds, format=args.time_format)
 df = df.set_index("ds")
@@ -27,12 +27,12 @@ ax= {}; fig = {} #each plot is a different figure - keep those and axes separate
 
 # if you have more kinds of data, get more colormaps from
 # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
-cmaps = """Oranges Greens Reds""".split()
+cmaps = """Blues Oranges Greens Reds""".split()
 
 # I want to print 2019 and 2020 data only and for 3 categories one below the other
 # to see how this year is trending compared to last.
 for i, yr in enumerate([2020]):
-    for j,cat in enumerate("confirmed recovered deceased".split()):
+    for j,cat in enumerate("active confirmed recovered deceased".split()):
         #we take the events as a series; and fill dates for which
         #there is no data available with 0
         #events = df[df.cat == cat].y.resample("D").asfreq().fillna(0)

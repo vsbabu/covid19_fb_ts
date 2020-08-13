@@ -11,4 +11,5 @@ join -t, 0.tmp 1.tmp|join -t, - 2.tmp | sed -e 's/"//g'  -e 's/-\([0-9][0-9]\),/
 #sort by timestamp
 echo "dt,confirmed,recovered,deceased" > ${state}.csv
 sort -t '-' -k3n -k2M -k1n ${state}.tmp >> ${state}.csv
+python3  state_active.py ${state}.csv
 rm -f *.tmp

@@ -8,8 +8,8 @@ index.html : daily.csv
 
 
 daily.csv : data.json
-	echo "dt,confirmed,recovered,deceased" > daily.csv
-	jq -r ".cases_time_series[]|[.date, .dailyconfirmed, .dailyrecovered, .dailydeceased]|@csv" data.json|sed -e 's/"//g' -e  's/^\(..\) \(.*\) \(.*\)/\1-\2-2020\3/g' >> daily.csv
+	echo "dt,active,confirmed,recovered,deceased" > daily.csv
+	jq -r ".cases_time_series[]|{dt:.date, active:((.totalconfirmed|tonumber)-(.totalrecovered|tonumber)-(.totaldeceased|tonumber)), confirmed:.dailyconfirmed|tonumber, recovered:.dailyrecovered|tonumber, deceased:.dailydeceased|tonumber}|[.dt,.active,.confirmed,.recovered,.deceased]|@csv" data.json|sed -e 's/"//g' -e  's/^\(..\) \(.*\) \(.*\)/\1-\2-2020\3/g' >> daily.csv
 
 # FIXME: *.html <- *.csv can be generalized in make
 
