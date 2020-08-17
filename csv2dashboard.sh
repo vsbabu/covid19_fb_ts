@@ -23,7 +23,7 @@ done
 echo "<table><tr><th align=\"center\">active</th><th align=\"center\">confirmed</th><th align=\"center\">recovered</th><th align=\"center\">deceased</th></tr><tbody><tr>" >> o.html
 for CATEGORY in active confirmed recovered deceased; do
   hash=`md5sum "${INPUT_FILE}_pred_${CATEGORY}.html.png"|cut -f1 -d' '`
-  echo "<td width=\"33%\"><img src=\"${INPUT_FILE}_pred_${CATEGORY}.html.png?v=${hash}\" width=\"400\" height=\"200\" alt=\"${CATEGORY} predictions\"/></td>" >> o.html
+  echo "<td width=\"33%\"><a href=\"${INPUT_FILE}_pred_${CATEGORY}.html.png?v=${hash}\" target=\"_blank\" title=\"click to open\"><img src=\"${INPUT_FILE}_pred_${CATEGORY}.html.png?v=${hash}\" width=\"400\" height=\"200\" border=\"0\" alt=\"${CATEGORY} predictions\"/></a></td>" >> o.html
 done
 echo "</tr></tbody></table>" >> o.html
 echo "<table><tr><td width=\"40%\" valign=\"top\" nowrap>" >> o.html
