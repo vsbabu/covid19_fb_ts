@@ -166,6 +166,8 @@ efw = pd.DataFrame(
         "a_sun",
     ],
 )
+#float64 prints numbers > 1million as scientific in HTML render. So make it int32.
+efw = efw.astype({col: 'int32' for col in efw.select_dtypes('float64').columns})
 efw.index.name = "week"
 efw.sort_index(ascending=False, inplace=True)
 
