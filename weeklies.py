@@ -81,12 +81,12 @@ def fit_predict_model(dataframe, interval_width=0.99, changepoint_range=0.8,
     m = m.fit(dataframe)
     forecast = m.predict(dataframe)
     forecast["fact"] = dataframe["y"].reset_index(drop=True)
+    forecast['fact']=forecast['fact'].clip(lower=0)
     fdataframe = m.make_future_dataframe(periods=future_periods)
     forecast_f = m.predict(fdataframe)
     forecast_f["fact"] = forecast_f["yhat"].reset_index(drop=True)
     forecast_f['fact'] =  forecast_f.fact.astype(int)
-    forecast.clip_lower(0)
-    forecast_f.clip_lower(0)
+    forecast_f['fact']=forecast_f['fact'].clip(lower=0)
     return (forecast, forecast_f, m)
 
 
