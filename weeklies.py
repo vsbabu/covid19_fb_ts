@@ -85,6 +85,8 @@ def fit_predict_model(dataframe, interval_width=0.99, changepoint_range=0.8,
     forecast_f = m.predict(fdataframe)
     forecast_f["fact"] = forecast_f["yhat"].reset_index(drop=True)
     forecast_f['fact'] =  forecast_f.fact.astype(int)
+    forecast.clip_lower(0)
+    forecast_f.clip_lower(0)
     return (forecast, forecast_f, m)
 
 
@@ -141,6 +143,7 @@ edf = edf.combine_first(edfut)
 edf.set_index("ds", inplace=True)
 
 edf=edf.reindex(dates) 
+edf['fact'].fillna(0)
 edf['fact'] =  edf.fact.astype(int)
 
 # Now, fold the df by weeks. fact goes to a day value and anomaly goes to a_day value
