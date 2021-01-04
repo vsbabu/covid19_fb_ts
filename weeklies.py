@@ -143,7 +143,7 @@ edf = edf.combine_first(edfut)
 edf.set_index("ds", inplace=True)
 
 edf=edf.reindex(dates) 
-edf['fact'].fillna(0)
+edf['fact'] = edf['fact'].fillna(0)
 edf['fact'] =  edf.fact.astype(int)
 
 # Now, fold the df by weeks. fact goes to a day value and anomaly goes to a_day value
